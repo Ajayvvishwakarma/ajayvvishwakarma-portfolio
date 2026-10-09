@@ -26,6 +26,6 @@ Then visit `http://localhost:8000`.
 
 ## Customize quickly
 
-- Update personal text in `/home/runner/work/ajayvvishwakarma-portfolio/ajayvvishwakarma-portfolio/index.html`
-- Tweak visual style variables at the top of `/home/runner/work/ajayvvishwakarma-portfolio/ajayvvishwakarma-portfolio/styles.css`
+- Update personal text in `index.html`
+- Tweak visual style variables at the top of `styles.css`
 - Replace project/social placeholder links in the Projects and Contact sections
