@@ -1,0 +1,6 @@
+services:
+  - type: web
+    name: ajayvvishwakarma-portfolio
+    env: static
+    buildCommand: ""
+    staticPublishPath: .
