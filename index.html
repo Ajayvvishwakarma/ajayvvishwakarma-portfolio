@@ -2,21 +2,873 @@
 <html lang="en">
   <head>
     <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover" />
+    <meta name="theme-color" content="#06020f" />
     <meta
       name="description"
-      content="Ajay Vishwakarma's personal portfolio built with React and modern interactive design."
+      content="Ajay Vishwakarma's personal portfolio featuring an immersive 3D cylinder project carousel."
     />
     <title>Ajay Vishwakarma | Portfolio</title>
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
     <link
-      href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&display=swap"
+      href="https://fonts.googleapis.com/css2?family=Sora:wght@400;500;600;700;800&family=Unbounded:wght@500;700;800&display=swap"
       rel="stylesheet"
     />
+    <style>
+      :root {
+        --bg: #06020f;
+        --bg-2: #120a22;
+        --c: #00d9ff;
+        --p: #9d00ff;
+        --m: #ff2bd6;
+        --tx: #ece8ff;
+        --muted: rgba(236, 232, 255, 0.72);
+        --panel: rgba(17, 11, 32, 0.86);
+        --panel-2: rgba(27, 13, 40, 0.9);
+        --line: rgba(157, 0, 255, 0.52);
+        --r: 232px;
+        --w: 260px;
+        --h: 340px;
+      }
+
+      * {
+        box-sizing: border-box;
+      }
+
+      html {
+        scroll-behavior: smooth;
+      }
+
+      body {
+        margin: 0;
+        min-height: 100vh;
+        font-family: "Sora", "Segoe UI", sans-serif;
+        color: var(--tx);
+        background:
+          radial-gradient(circle at top right, rgba(157, 0, 255, 0.22), transparent 28%),
+          radial-gradient(circle at bottom left, rgba(0, 217, 255, 0.19), transparent 24%),
+          var(--bg);
+        overflow-x: hidden;
+        display: flex;
+        justify-content: center;
+        padding: max(20px, env(safe-area-inset-top)) 18px max(20px, env(safe-area-inset-bottom));
+      }
+
+      body::before,
+      body::after {
+        content: "";
+        position: fixed;
+        inset: 0;
+        pointer-events: none;
+      }
+
+      body::before {
+        background: radial-gradient(circle at 80% 10%, rgba(157, 0, 255, 0.12), transparent 20%);
+      }
+
+      body::after {
+        background: radial-gradient(circle at 15% 85%, rgba(0, 217, 255, 0.12), transparent 24%);
+      }
+
+      a {
+        color: inherit;
+        text-decoration: none;
+      }
+
+      button,
+      input,
+      textarea,
+      select {
+        font: inherit;
+      }
+
+      .page {
+        width: min(1180px, 100%);
+        position: relative;
+        z-index: 1;
+      }
+
+      .topbar {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        margin-top: 10px;
+      }
+
+      .brand {
+        font-family: "Unbounded", "Segoe UI", sans-serif;
+        font-size: 0.85rem;
+        letter-spacing: 0.18em;
+        text-transform: uppercase;
+        color: rgba(236, 232, 255, 0.78);
+        padding: 0.7rem 1.1rem;
+        border: 1px solid rgba(157, 0, 255, 0.34);
+        border-radius: 999px;
+        background: rgba(9, 8, 19, 0.5);
+        backdrop-filter: blur(10px);
+        box-shadow: 0 0 26px rgba(157, 0, 255, 0.12);
+      }
+
+      .hero {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+        margin-top: 1.2rem;
+        text-align: center;
+      }
+
+      .eyebrow {
+        margin: 0;
+        font-size: 0.78rem;
+        letter-spacing: 0.22em;
+        text-transform: uppercase;
+        color: var(--c);
+        opacity: 0.9;
+      }
+
+      .hero-title {
+        margin: 1rem 0 0.25rem;
+        font-family: "Unbounded", "Segoe UI", sans-serif;
+        font-size: clamp(2.7rem, 6vw, 6rem);
+        line-height: 0.94;
+        letter-spacing: -0.08em;
+        background: linear-gradient(90deg, var(--c) 0%, var(--p) 50%, var(--m) 100%);
+        background-clip: text;
+        -webkit-background-clip: text;
+        color: transparent;
+        -webkit-text-fill-color: transparent;
+        filter: drop-shadow(0 0 18px rgba(0, 217, 255, 0.35));
+        animation: pulseGlow 3s ease-in-out infinite alternate;
+      }
+
+      .role {
+        margin: 0.35rem 0 0;
+        font-size: 1rem;
+        letter-spacing: 0.08em;
+        text-transform: uppercase;
+        color: var(--muted);
+      }
+
+      .stage-wrap {
+        margin-top: 2.6rem;
+      }
+
+      .stage {
+        position: relative;
+        width: min(100%, 980px);
+        margin: 0 auto;
+        perspective: 1200px;
+        user-select: none;
+        touch-action: pan-y;
+      }
+
+      .carousel-shell {
+        position: relative;
+        height: calc(var(--h) + 78px);
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        transform-style: preserve-3d;
+        cursor: grab;
+      }
+
+      .carousel-shell:active {
+        cursor: grabbing;
+      }
+
+      .carousel {
+        position: relative;
+        width: 0;
+        height: 0;
+        transform-style: preserve-3d;
+        will-change: transform;
+      }
+
+      .slot {
+        position: absolute;
+        left: 50%;
+        top: 50%;
+        width: var(--w);
+        height: var(--h);
+        margin-left: calc(var(--w) / -2);
+        margin-top: calc(var(--h) / -2);
+        transform-style: preserve-3d;
+        pointer-events: none;
+        transition: opacity 0.2s ease, filter 0.2s ease, visibility 0.2s ease;
+      }
+
+      .slot.is-front {
+        pointer-events: auto;
+      }
+
+      .slot .tilt {
+        width: 100%;
+        height: 100%;
+        transform-style: preserve-3d;
+        transition: transform 0.35s ease;
+      }
+
+      .card {
+        position: relative;
+        width: 100%;
+        height: 100%;
+        border-radius: 22px;
+        border: 1px solid rgba(157, 0, 255, 0.72);
+        background:
+          linear-gradient(160deg, rgba(26, 15, 43, 0.96), rgba(12, 8, 22, 0.96)),
+          rgba(17, 12, 28, 0.92);
+        box-shadow:
+          0 0 40px rgba(157, 0, 255, 0.18),
+          inset 0 0 0 1px rgba(157, 0, 255, 0.06),
+          inset 0 0 28px rgba(0, 217, 255, 0.08);
+        transform-style: preserve-3d;
+        transform: rotateY(0deg);
+        transition: transform 0.7s cubic-bezier(0.2, 0.8, 0.2, 1), box-shadow 0.25s ease;
+        overflow: hidden;
+      }
+
+      .slot.is-front .card {
+        box-shadow:
+          0 0 30px rgba(157, 0, 255, 0.28),
+          inset 0 0 18px rgba(0, 217, 255, 0.08),
+          0 22px 42px rgba(9, 5, 18, 0.6);
+      }
+
+      .card.is-flipped {
+        transform: rotateY(180deg);
+      }
+
+      .face {
+        position: absolute;
+        inset: 0;
+        backface-visibility: hidden;
+        border-radius: 22px;
+        display: flex;
+        flex-direction: column;
+        justify-content: space-between;
+        padding: 1.15rem 1.15rem 1.1rem;
+      }
+
+      .face.front {
+        background:
+          linear-gradient(180deg, rgba(26, 12, 34, 0.96), rgba(11, 9, 21, 0.98)),
+          rgba(24, 14, 36, 0.8);
+      }
+
+      .face.back {
+        background:
+          linear-gradient(180deg, rgba(23, 10, 33, 0.98), rgba(10, 8, 20, 0.98)),
+          rgba(16, 8, 26, 0.92);
+        transform: rotateY(180deg);
+      }
+
+      .url-chip {
+        display: inline-flex;
+        align-self: flex-start;
+        padding: 0.38rem 0.7rem;
+        border-radius: 999px;
+        border: 1px solid rgba(0, 217, 255, 0.52);
+        background: rgba(0, 217, 255, 0.08);
+        color: var(--c);
+        font-size: 0.68rem;
+        line-height: 1;
+        letter-spacing: 0.14em;
+        text-transform: uppercase;
+        font-family: "SFMono-Regular", "Consolas", monospace;
+      }
+
+      .face h3 {
+        margin: 0;
+        font-family: "Unbounded", "Segoe UI", sans-serif;
+        font-size: clamp(1.28rem, 2vw, 1.8rem);
+        line-height: 1.15;
+        letter-spacing: -0.04em;
+      }
+
+      .face p {
+        margin: 0;
+        color: var(--muted);
+        line-height: 1.7;
+        font-size: 0.92rem;
+      }
+
+      .tags {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 0.45rem;
+      }
+
+      .tag {
+        padding: 0.38rem 0.62rem;
+        border-radius: 999px;
+        background: rgba(157, 0, 255, 0.12);
+        border: 1px solid rgba(157, 0, 255, 0.28);
+        color: rgba(236, 232, 255, 0.9);
+        font-size: 0.62rem;
+        letter-spacing: 0.08em;
+        text-transform: uppercase;
+      }
+
+      .back-header {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        gap: 0.6rem;
+      }
+
+      .back-header .mini {
+        font-size: 0.7rem;
+        color: var(--c);
+        letter-spacing: 0.14em;
+        text-transform: uppercase;
+      }
+
+      .back-copy {
+        display: flex;
+        flex-direction: column;
+        gap: 0.7rem;
+      }
+
+      .back-copy ul {
+        margin: 0;
+        padding-left: 1.1rem;
+        display: grid;
+        gap: 0.5rem;
+        color: rgba(236, 232, 255, 0.86);
+        font-size: 0.83rem;
+        line-height: 1.5;
+      }
+
+      .back-copy li::marker {
+        color: var(--p);
+      }
+
+      .back-actions {
+        display: flex;
+        gap: 0.7rem;
+        margin-top: 0.3rem;
+      }
+
+      .action-btn {
+        flex: 1;
+        padding: 0.72rem 0.9rem;
+        border-radius: 999px;
+        border: 1px solid rgba(0, 217, 255, 0.45);
+        background: rgba(0, 217, 255, 0.08);
+        color: var(--tx);
+        font-size: 0.72rem;
+        letter-spacing: 0.09em;
+        text-transform: uppercase;
+        text-align: center;
+        transition: transform 0.2s ease, box-shadow 0.2s ease, border-color 0.2s ease;
+      }
+
+      .action-btn:nth-child(2) {
+        border-color: rgba(157, 0, 255, 0.45);
+        background: rgba(157, 0, 255, 0.1);
+      }
+
+      .action-btn:hover,
+      .action-btn:focus-visible {
+        transform: translateY(-1px);
+        box-shadow: 0 0 18px rgba(0, 217, 255, 0.2);
+        border-color: rgba(0, 217, 255, 0.8);
+        outline: none;
+      }
+
+      .control-row {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        margin-top: 1.2rem;
+        gap: 1rem;
+      }
+
+      .nav-btn {
+        width: 52px;
+        height: 52px;
+        border: 1px solid rgba(157, 0, 255, 0.65);
+        background: rgba(18, 11, 29, 0.8);
+        color: var(--tx);
+        border-radius: 50%;
+        display: grid;
+        place-items: center;
+        font-size: 1.55rem;
+        line-height: 1;
+        box-shadow: 0 0 22px rgba(157, 0, 255, 0.12);
+        transition: transform 0.2s ease, border-color 0.2s ease, box-shadow 0.2s ease;
+      }
+
+      .nav-btn:hover,
+      .nav-btn:focus-visible {
+        transform: translateY(-2px) scale(1.02);
+        border-color: rgba(0, 217, 255, 0.7);
+        box-shadow: 0 0 22px rgba(0, 217, 255, 0.18);
+        outline: none;
+      }
+
+      .hint {
+        display: inline-flex;
+        justify-content: center;
+        align-items: center;
+        margin-top: 0.8rem;
+        width: 100%;
+        color: rgba(236, 232, 255, 0.62);
+        letter-spacing: 0.12em;
+        text-transform: uppercase;
+        font-size: 0.68rem;
+      }
+
+      .footer {
+        margin-top: clamp(1.6rem, 4vw, 3rem);
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        gap: 1.05rem;
+        text-align: center;
+        padding-bottom: 1rem;
+      }
+
+      .footer h2 {
+        margin: 0;
+        font-family: "Unbounded", "Segoe UI", sans-serif;
+        font-size: clamp(1.9rem, 4vw, 3.2rem);
+        letter-spacing: -0.06em;
+      }
+
+      .socials {
+        display: flex;
+        flex-wrap: wrap;
+        justify-content: center;
+        gap: 0.8rem;
+      }
+
+      .pill {
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+        min-width: 140px;
+        padding: 0.82rem 1.1rem;
+        background: rgba(16, 11, 25, 0.78);
+        border: 1px solid rgba(157, 0, 255, 0.7);
+        border-radius: 999px;
+        box-shadow: 0 0 18px rgba(157, 0, 255, 0.12);
+        color: var(--tx);
+        letter-spacing: 0.08em;
+        text-transform: uppercase;
+        font-size: 0.7rem;
+        transition: transform 0.2s ease, box-shadow 0.2s ease, border-color 0.2s ease;
+      }
+
+      .pill:hover,
+      .pill:focus-visible {
+        transform: translateY(-2px);
+        box-shadow: 0 0 22px rgba(157, 0, 255, 0.26), 0 0 18px rgba(0, 217, 255, 0.18);
+        border-color: rgba(0, 217, 255, 0.9);
+        outline: none;
+      }
+
+      :focus-visible {
+        outline: 2px solid var(--c);
+        outline-offset: 3px;
+      }
+
+      @keyframes pulseGlow {
+        0% {
+          filter: drop-shadow(0 0 10px rgba(0, 217, 255, 0.25));
+        }
+        100% {
+          filter: drop-shadow(0 0 26px rgba(157, 0, 255, 0.52));
+        }
+      }
+
+      @media (max-width: 760px) {
+        :root {
+          --r: 180px;
+          --w: 220px;
+          --h: 290px;
+        }
+
+        .role {
+          letter-spacing: 0.06em;
+        }
+
+        .carousel-shell {
+          height: calc(var(--h) + 52px);
+        }
+      }
+
+      @media (max-width: 600px) {
+        :root {
+          --r: 150px;
+          --w: 200px;
+          --h: 270px;
+        }
+
+        body {
+          padding-left: 12px;
+          padding-right: 12px;
+        }
+
+        .brand {
+          letter-spacing: 0.12em;
+        }
+
+        .hero-title {
+          font-size: clamp(2.5rem, 13vw, 4.1rem);
+        }
+
+        .role {
+          font-size: 0.76rem;
+        }
+
+        .nav-btn {
+          width: 46px;
+          height: 46px;
+        }
+
+        .socials {
+          width: 100%;
+        }
+
+        .pill {
+          flex: 1;
+          min-width: 120px;
+        }
+      }
+
+      @media (prefers-reduced-motion: reduce) {
+        *, *::before, *::after {
+          animation: none !important;
+          transition: none !important;
+          scroll-behavior: auto !important;
+        }
+      }
+    </style>
   </head>
   <body>
-    <div id="root"></div>
-    <script type="module" src="/src/main.jsx"></script>
+    <div class="page">
+      <header class="topbar" aria-label="Site header">
+        <div class="brand">Ajay Vishwakarma</div>
+      </header>
+
+      <section class="hero" aria-label="Introduction">
+        <p class="eyebrow">Creative developer</p>
+        <h1 class="hero-title">Ajay Vishwakarma</h1>
+        <p class="role">Full-stack developer • product thinker</p>
+      </section>
+
+      <section class="stage-wrap" aria-label="Featured projects">
+        <div class="stage" id="stage">
+          <div class="carousel-shell">
+            <div class="carousel" id="carousel" aria-label="Project carousel"></div>
+          </div>
+        </div>
+
+        <div class="control-row" aria-label="Carousel controls">
+          <button class="nav-btn" id="prevBtn" type="button" aria-label="Show previous project">&#8249;</button>
+          <div class="hint">Drag • scroll • use arrows</div>
+          <button class="nav-btn" id="nextBtn" type="button" aria-label="Show next project">&#8250;</button>
+        </div>
+      </section>
+
+      <footer class="footer" aria-label="Contact links">
+        <h2>Let's build something</h2>
+        <div class="socials">
+          <a class="pill" href="mailto:hello@ajayvishwakarma.dev" target="_blank" rel="noreferrer">Email</a>
+          <a class="pill" href="https://github.com/Ajayvvishwakarma" target="_blank" rel="noreferrer">GitHub</a>
+          <a class="pill" href="https://www.linkedin.com/in/ajay-vishwakarma/" target="_blank" rel="noreferrer">LinkedIn</a>
+        </div>
+      </footer>
+    </div>
+
+    <script>
+      // Update this section to change your name, role, project content, and links.
+      const PROJECTS = [
+        {
+          title: 'Neon Commerce',
+          description: 'A conversion-focused storefront for premium gadgets with adaptive UX and dynamic product storytelling.',
+          tags: ['React', 'Commerce', 'UX'],
+          highlights: [
+            'Personalized merchandising built around conversion experiments.',
+            'Performance-first checkout flows for mobile-first shoppers.',
+            'A/B testing insights baked into the product experience.'
+          ],
+          live: 'https://example.com/neon-commerce',
+          github: 'https://github.com/',
+          urlLabel: 'neoncommerce.dev'
+        },
+        {
+          title: 'Orbital Analytics',
+          description: 'A space-themed real-time dashboard for monitoring product metrics, funnels, and live operational health.',
+          tags: ['Analytics', 'Node', 'Data'],
+          highlights: [
+            'Built live KPI views for product, growth, and engineering teams.',
+            'Saved reporting windows for daily executive reviews.',
+            'Lowered analyst overhead with intuitive drill-down workflows.'
+          ],
+          live: 'https://example.com/orbital-analytics',
+          github: 'https://github.com/',
+          urlLabel: 'orbital.io'
+        },
+        {
+          title: 'Signal Forge',
+          description: 'A SaaS control panel for automating onboarding, evaluations, and customer success touchpoints.',
+          tags: ['SaaS', 'Automation', 'AI'],
+          highlights: [
+            'Automated lifecycle messaging across acquisition and retention stages.',
+            'Unified customer health scoring and user segmentation logic.',
+            'Designed workflows for scale without sacrificing clarity.'
+          ],
+          live: 'https://example.com/signal-forge',
+          github: 'https://github.com/',
+          urlLabel: 'signalforge.app'
+        },
+        {
+          title: 'Luma Studio',
+          description: 'A polished portfolio and CMS platform for agencies, creators, and boutique design studios.',
+          tags: ['CMS', 'Design', 'Brand'],
+          highlights: [
+            'Improved editorial publishing speed for content-heavy teams.',
+            'Crafted modular layouts that flex across campaign types.',
+            'Built reusable templates that kept visual quality consistent.'
+          ],
+          live: 'https://example.com/luma-studio',
+          github: 'https://github.com/',
+          urlLabel: 'lumastudio.co'
+        },
+        {
+          title: 'Drift Desk',
+          description: 'A collaborative workspace for remote teams with structured planning, task groups, and delivery tracking.',
+          tags: ['Collab', 'Product', 'Ops'],
+          highlights: [
+            'Streamlined sprint planning and workload balancing across teams.',
+            'Connected planning artifacts to execution visibility in real time.',
+            'Reduced coordination drag with clearer handoff patterns.'
+          ],
+          live: 'https://example.com/drift-desk',
+          github: 'https://github.com/',
+          urlLabel: 'driftdesk.io'
+        },
+        {
+          title: 'Northstar Labs',
+          description: 'A discovery platform helping research and product teams collect, compare, and synthesize user insights.',
+          tags: ['Research', 'UX', 'API'],
+          highlights: [
+            'Turned research synthesis into a faster and more structured process.',
+            'Built data-rich comparison views for evidence-based decisions.',
+            'Designed collaborative workflows for teams working across regions.'
+          ],
+          live: 'https://example.com/northstar-labs',
+          github: 'https://github.com/',
+          urlLabel: 'northstarlabs.ai'
+        }
+      ];
+
+      const carousel = document.getElementById('carousel');
+      const stage = document.getElementById('stage');
+      const prevBtn = document.getElementById('prevBtn');
+      const nextBtn = document.getElementById('nextBtn');
+      const totalProjects = PROJECTS.length;
+      const step = 360 / totalProjects;
+
+      let currentIndex = 0;
+      let rotation = 0;
+      let targetRotation = 0;
+      let dragStartX = 0;
+      let dragStartRotation = 0;
+      let dragDistance = 0;
+      let suppressClick = false;
+      let flipState = new Array(totalProjects).fill(false);
+
+      function clampIndex(value) {
+        return (value + totalProjects) % totalProjects;
+      }
+
+      function setCurrentIndex(index, immediate = false) {
+        currentIndex = clampIndex(index);
+        targetRotation = -(currentIndex * step);
+        if (immediate) {
+          rotation = targetRotation;
+        }
+        flipState = new Array(totalProjects).fill(false);
+        updateCards();
+      }
+
+      function renderCards() {
+        carousel.innerHTML = PROJECTS.map((project, index) => `
+          <article class="slot" data-index="${index}" aria-label="Project ${project.title}">
+            <div class="tilt" tabindex="0" aria-label="Project card for ${project.title}">
+              <div class="card" aria-label="Front of ${project.title}">
+                <div class="face front">
+                  <span class="url-chip">${project.urlLabel}</span>
+                  <div>
+                    <h3>${project.title}</h3>
+                  </div>
+                  <p>${project.description}</p>
+                  <div class="tags">
+                    ${project.tags.map((tag) => `<span class="tag">${tag}</span>`).join('')}
+                  </div>
+                </div>
+
+                <div class="face back">
+                  <div class="back-header">
+                    <span class="mini">Project</span>
+                    <span class="url-chip">${project.urlLabel}</span>
+                  </div>
+                  <div class="back-copy">
+                    <h3>${project.title}</h3>
+                    <ul>
+                      ${project.highlights.map((line) => `<li>${line}</li>`).join('')}
+                    </ul>
+                  </div>
+                  <div class="back-actions">
+                    <a class="action-btn" href="${project.live}" target="_blank" rel="noreferrer">Live demo</a>
+                    <a class="action-btn" href="${project.github}" target="_blank" rel="noreferrer">GitHub</a>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </article>
+        `).join('');
+
+        const cards = [...document.querySelectorAll('.slot')];
+        cards.forEach((slot) => {
+          const tilt = slot.querySelector('.tilt');
+          const card = slot.querySelector('.card');
+          const index = Number(slot.dataset.index);
+
+          tileFrontCard(tilt, card, index);
+        });
+      }
+
+      function tileFrontCard(tilt, card, index) {
+        tilt.addEventListener('pointermove', (event) => {
+          if (index !== currentIndex) return;
+          const rect = tilt.getBoundingClientRect();
+          const px = (event.clientX - rect.left) / rect.width - 0.5;
+          const py = (event.clientY - rect.top) / rect.height - 0.5;
+          const rotateX = py * -18;
+          const rotateY = px * 18;
+          tilt.style.transform = `rotateX(${rotateX}deg) rotateY(${rotateY}deg)`;
+        });
+
+        tilt.addEventListener('pointerleave', () => {
+          tilt.style.transform = '';
+        });
+
+        card.addEventListener('click', (event) => {
+          if (event.target.closest('a')) return;
+          if (suppressClick) {
+            suppressClick = false;
+            return;
+          }
+
+          if (index === currentIndex) {
+            flipState[index] = !flipState[index];
+            const isFlipped = flipState[index];
+            card.classList.toggle('is-flipped', isFlipped);
+          } else {
+            setCurrentIndex(index, false);
+          }
+        });
+      }
+
+      function updateCards() {
+        const slots = [...document.querySelectorAll('.slot')];
+
+        slots.forEach((slot) => {
+          const index = Number(slot.dataset.index);
+          const card = slot.querySelector('.card');
+          const angle = ((index * step + rotation + 540) % 360) - 180;
+          const absAngle = Math.abs(angle);
+          const opacity = Math.max(0, 1 - absAngle / 130);
+          const blur = Math.min(absAngle / 14, 16);
+
+          slot.style.opacity = opacity.toFixed(3);
+          slot.style.filter = `blur(${blur.toFixed(2)}px)`;
+          slot.style.visibility = absAngle > 120 ? 'hidden' : 'visible';
+          slot.style.pointerEvents = absAngle > 100 ? 'none' : 'auto';
+          slot.style.zIndex = String(100 - absAngle);
+          slot.classList.toggle('is-front', index === currentIndex);
+          card.classList.toggle('is-flipped', !!flipState[index]);
+        });
+
+        carousel.style.transform = `rotateY(${rotation}deg)`;
+      }
+
+      function animate() {
+        rotation += (targetRotation - rotation) * 0.12;
+        if (Math.abs(targetRotation - rotation) < 0.1) {
+          rotation = targetRotation;
+        }
+        updateCards();
+        requestAnimationFrame(animate);
+      }
+
+      function onPointerDown(event) {
+        stage.setPointerCapture(event.pointerId);
+        dragStartX = event.clientX;
+        dragStartRotation = rotation;
+        dragDistance = 0;
+      }
+
+      function onPointerMove(event) {
+        if (event.buttons === 0) return;
+        dragDistance = Math.abs(event.clientX - dragStartX);
+        rotation = dragStartRotation + (event.clientX - dragStartX) * 0.4;
+        updateCards();
+      }
+
+      function onPointerUp() {
+        if (dragDistance > 6) {
+          suppressClick = true;
+          const nearest = Math.round((-rotation) / step);
+          setCurrentIndex(nearest, false);
+        }
+        dragDistance = 0;
+      }
+
+      function nextProject() {
+        setCurrentIndex(currentIndex + 1, false);
+      }
+
+      function prevProject() {
+        setCurrentIndex(currentIndex - 1, false);
+      }
+
+      prevBtn.addEventListener('click', prevProject);
+      nextBtn.addEventListener('click', nextProject);
+
+      stage.addEventListener('pointerdown', onPointerDown);
+      stage.addEventListener('pointermove', onPointerMove);
+      stage.addEventListener('pointerup', onPointerUp);
+      stage.addEventListener('pointerleave', onPointerUp);
+
+      stage.addEventListener('wheel', (event) => {
+        event.preventDefault();
+        if (Math.abs(event.deltaY) < 4) return;
+        if (event.deltaY > 0) {
+          nextProject();
+        } else {
+          prevProject();
+        }
+      }, { passive: false });
+
+      document.addEventListener('keydown', (event) => {
+        if (event.key === 'ArrowRight') {
+          nextProject();
+        }
+        if (event.key === 'ArrowLeft') {
+          prevProject();
+        }
+      });
+
+      renderCards();
+      setCurrentIndex(0, true);
+      requestAnimationFrame(animate);
+    </script>
   </body>
 </html>
