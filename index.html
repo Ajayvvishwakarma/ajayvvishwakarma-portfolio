@@ -431,6 +431,177 @@
         padding-bottom: 1rem;
       }
 
+      .arcade {
+        margin: clamp(3rem, 8vw, 6rem) auto 0;
+        width: min(100%, 1060px);
+      }
+
+      .arcade-heading {
+        display: flex;
+        justify-content: space-between;
+        align-items: end;
+        gap: 1rem;
+        margin-bottom: 1.15rem;
+      }
+
+      .arcade-kicker {
+        margin: 0 0 0.45rem;
+        color: var(--c);
+        font: 0.68rem "SFMono-Regular", "Consolas", monospace;
+        letter-spacing: 0.16em;
+        text-transform: uppercase;
+      }
+
+      .arcade-heading h2 {
+        margin: 0;
+        font-family: "Unbounded", "Segoe UI", sans-serif;
+        font-size: clamp(1.4rem, 3vw, 2.4rem);
+        letter-spacing: -0.06em;
+      }
+
+      .arcade-status {
+        color: rgba(236, 232, 255, 0.62);
+        font: 0.68rem "SFMono-Regular", "Consolas", monospace;
+        letter-spacing: 0.08em;
+        text-transform: uppercase;
+        white-space: nowrap;
+      }
+
+      .arcade-grid {
+        display: grid;
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+        gap: 1rem;
+      }
+
+      .game-card {
+        position: relative;
+        overflow: hidden;
+        border: 1px solid rgba(157, 0, 255, 0.52);
+        border-radius: 24px;
+        background: rgba(12, 8, 24, 0.86);
+        box-shadow: inset 0 0 32px rgba(0, 217, 255, 0.05), 0 0 28px rgba(157, 0, 255, 0.1);
+      }
+
+      .game-card::before {
+        content: "";
+        position: absolute;
+        inset: 0;
+        pointer-events: none;
+        background: linear-gradient(115deg, rgba(0, 217, 255, 0.08), transparent 38%, rgba(255, 43, 214, 0.08));
+      }
+
+      .game-top,
+      .game-copy,
+      .game-actions {
+        position: relative;
+        z-index: 1;
+      }
+
+      .game-top {
+        display: flex;
+        justify-content: space-between;
+        gap: 1rem;
+        padding: 1.1rem 1.15rem 0.7rem;
+      }
+
+      .game-top h3 {
+        margin: 0.42rem 0 0;
+        font-family: "Unbounded", "Segoe UI", sans-serif;
+        font-size: clamp(1rem, 2vw, 1.35rem);
+        letter-spacing: -0.05em;
+      }
+
+      .game-index {
+        color: var(--m);
+        font: 0.65rem "SFMono-Regular", "Consolas", monospace;
+        letter-spacing: 0.1em;
+      }
+
+      .game-hud {
+        display: flex;
+        gap: 0.8rem;
+        text-align: right;
+        color: rgba(236, 232, 255, 0.65);
+        font: 0.6rem "SFMono-Regular", "Consolas", monospace;
+        text-transform: uppercase;
+      }
+
+      .game-hud strong {
+        display: block;
+        margin-top: 0.22rem;
+        color: var(--c);
+        font-size: 0.9rem;
+      }
+
+      .game-canvas {
+        display: block;
+        width: calc(100% - 2.3rem);
+        height: 245px;
+        margin: 0 1.15rem;
+        border: 1px solid rgba(0, 217, 255, 0.2);
+        border-radius: 14px;
+        background: #080612;
+        cursor: crosshair;
+        touch-action: none;
+      }
+
+      .game-copy {
+        padding: 0.85rem 1.15rem 0;
+      }
+
+      .game-copy p {
+        margin: 0;
+        color: var(--muted);
+        font-size: 0.79rem;
+        line-height: 1.55;
+      }
+
+      .game-actions {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        gap: 0.8rem;
+        padding: 1rem 1.15rem 1.15rem;
+      }
+
+      .game-help {
+        color: rgba(236, 232, 255, 0.5);
+        font: 0.61rem "SFMono-Regular", "Consolas", monospace;
+        line-height: 1.5;
+        text-transform: uppercase;
+      }
+
+      .game-btn {
+        border: 1px solid rgba(0, 217, 255, 0.55);
+        border-radius: 999px;
+        padding: 0.68rem 0.9rem;
+        background: rgba(0, 217, 255, 0.1);
+        color: var(--tx);
+        cursor: pointer;
+        font-size: 0.66rem;
+        letter-spacing: 0.1em;
+        text-transform: uppercase;
+      }
+
+      .game-btn:hover,
+      .game-btn:focus-visible {
+        border-color: var(--c);
+        box-shadow: 0 0 18px rgba(0, 217, 255, 0.2);
+        outline: none;
+      }
+
+      @media (max-width: 760px) {
+        .arcade-heading {
+          align-items: start;
+          flex-direction: column;
+          gap: 0.35rem;
+        }
+
+        .arcade-grid {
+          grid-template-columns: 1fr;
+        }
+      }
+
       .footer h2 {
         margin: 0;
         font-family: "Unbounded", "Segoe UI", sans-serif;
@@ -571,6 +742,62 @@
           <button class="nav-btn" id="prevBtn" type="button" aria-label="Show previous project">&#8249;</button>
           <div class="hint">Drag • scroll • use arrows</div>
           <button class="nav-btn" id="nextBtn" type="button" aria-label="Show next project">&#8250;</button>
+        </div>
+      </section>
+
+      <section class="arcade" aria-label="Playable portfolio games">
+        <div class="arcade-heading">
+          <div>
+            <p class="arcade-kicker">Play // Arcade</p>
+            <h2>Small games. Big energy.</h2>
+          </div>
+          <span class="arcade-status">system/portfolio_arcade.exe</span>
+        </div>
+
+        <div class="arcade-grid">
+          <article class="game-card">
+            <div class="game-top">
+              <div>
+                <span class="game-index">ARCADE 01</span>
+                <h3>Orbital Defense 3D</h3>
+              </div>
+              <div class="game-hud">
+                <span>Score<strong id="orbitalScore">0</strong></span>
+                <span>Wave<strong id="orbitalWave">1</strong></span>
+                <span>Best<strong id="orbitalBest">0</strong></span>
+              </div>
+            </div>
+            <canvas class="game-canvas" id="orbitalCanvas" width="760" height="420" aria-label="Orbital Defense game"></canvas>
+            <div class="game-copy">
+              <p>Drone swarms are closing in on the energy core. Blast them with lasers and unleash a shockwave when your pulse is charged.</p>
+            </div>
+            <div class="game-actions">
+              <span class="game-help">Click / tap (hold) to fire<br />Space / E shockwave</span>
+              <button class="game-btn" id="orbitalShockwave" type="button">Shockwave</button>
+            </div>
+          </article>
+
+          <article class="game-card">
+            <div class="game-top">
+              <div>
+                <span class="game-index">ARCADE 02</span>
+                <h3>Neon Drift 3D</h3>
+              </div>
+              <div class="game-hud">
+                <span>Speed<strong id="driftSpeed">0 km/h</strong></span>
+                <span>Combo<strong id="driftCombo">x1</strong></span>
+                <span>Best<strong id="driftBest">0</strong></span>
+              </div>
+            </div>
+            <canvas class="game-canvas" id="driftCanvas" width="760" height="420" aria-label="Neon Drift game"></canvas>
+            <div class="game-copy">
+              <p>Pilot a light-craft across an endless synthwave grid. Dodge crystal pylons and grab energy cores to build your combo multiplier.</p>
+            </div>
+            <div class="game-actions">
+              <span class="game-help">AD / ←→ steer<br />Mouse / touch drag to steer</span>
+              <button class="game-btn" id="driftStart" type="button">Launch Game</button>
+            </div>
+          </article>
         </div>
       </section>
 
@@ -869,6 +1096,309 @@
       renderCards();
       setCurrentIndex(0, true);
       requestAnimationFrame(animate);
+
+      const orbitalCanvas = document.getElementById('orbitalCanvas');
+      const orbitalCtx = orbitalCanvas.getContext('2d');
+      const orbitalScoreEl = document.getElementById('orbitalScore');
+      const orbitalWaveEl = document.getElementById('orbitalWave');
+      const orbitalBestEl = document.getElementById('orbitalBest');
+      const orbitalShockwaveBtn = document.getElementById('orbitalShockwave');
+      const orbital = {
+        score: 0,
+        best: Number(localStorage.getItem('orbital-best') || 0),
+        wave: 1,
+        pulse: 0,
+        firing: false,
+        lastSpawn: 0,
+        lastShot: 0,
+        shockwave: 0,
+        aim: { x: 380, y: 210 },
+        drones: [],
+        lasers: [],
+        sparks: []
+      };
+
+      orbitalBestEl.textContent = orbital.best;
+
+      function orbitalPoint(event) {
+        const rect = orbitalCanvas.getBoundingClientRect();
+        return {
+          x: (event.clientX - rect.left) * orbitalCanvas.width / rect.width,
+          y: (event.clientY - rect.top) * orbitalCanvas.height / rect.height
+        };
+      }
+
+      function orbitalFire() {
+        if (!orbital.firing) return;
+        const now = performance.now();
+        if (now - orbital.lastShot < 125) return;
+        orbital.lastShot = now;
+        const core = { x: orbitalCanvas.width / 2, y: orbitalCanvas.height / 2 };
+        const angle = Math.atan2(orbital.aim.y - core.y, orbital.aim.x - core.x);
+        orbital.lasers.push({ x: core.x, y: core.y, vx: Math.cos(angle) * 11, vy: Math.sin(angle) * 11, life: 45 });
+      }
+
+      orbitalCanvas.addEventListener('pointerdown', (event) => {
+        orbital.firing = true;
+        orbital.aim = orbitalPoint(event);
+        orbitalCanvas.setPointerCapture(event.pointerId);
+        orbitalFire();
+      });
+      orbitalCanvas.addEventListener('pointermove', (event) => { orbital.aim = orbitalPoint(event); });
+      orbitalCanvas.addEventListener('pointerup', () => { orbital.firing = false; });
+      orbitalCanvas.addEventListener('pointercancel', () => { orbital.firing = false; });
+      orbitalShockwaveBtn.addEventListener('click', () => {
+        if (orbital.pulse < 100) return;
+        orbital.pulse = 0;
+        orbital.shockwave = 34;
+        orbital.drones.forEach((drone) => { drone.dead = true; });
+      });
+
+      function spawnDrone() {
+        const side = Math.floor(Math.random() * 4);
+        const margin = 30;
+        const position = [
+          { x: Math.random() * 760, y: -margin },
+          { x: 760 + margin, y: Math.random() * 420 },
+          { x: Math.random() * 760, y: 420 + margin },
+          { x: -margin, y: Math.random() * 420 }
+        ][side];
+        orbital.drones.push({
+          ...position,
+          speed: 0.65 + orbital.wave * 0.07 + Math.random() * 0.35,
+          size: 7 + Math.random() * 4,
+          dead: false
+        });
+      }
+
+      function updateOrbital(time) {
+        const core = { x: orbitalCanvas.width / 2, y: orbitalCanvas.height / 2 };
+        if (time - orbital.lastSpawn > Math.max(360, 1050 - orbital.wave * 55)) {
+          spawnDrone();
+          orbital.lastSpawn = time;
+        }
+        orbitalFire();
+        orbital.drones.forEach((drone) => {
+          const angle = Math.atan2(core.y - drone.y, core.x - drone.x);
+          drone.x += Math.cos(angle) * drone.speed;
+          drone.y += Math.sin(angle) * drone.speed;
+          if (Math.hypot(drone.x - core.x, drone.y - core.y) < 27) {
+            drone.dead = true;
+            orbital.score = Math.max(0, orbital.score - 10);
+            orbital.sparks.push({ x: core.x, y: core.y, life: 20, color: '#ff2bd6' });
+          }
+        });
+        orbital.lasers.forEach((laser) => {
+          laser.x += laser.vx;
+          laser.y += laser.vy;
+          laser.life -= 1;
+          orbital.drones.forEach((drone) => {
+            if (!drone.dead && Math.hypot(laser.x - drone.x, laser.y - drone.y) < drone.size + 8) {
+              drone.dead = true;
+              laser.life = 0;
+              orbital.score += 25;
+              orbital.pulse = Math.min(100, orbital.pulse + 12);
+              for (let i = 0; i < 5; i += 1) orbital.sparks.push({ x: drone.x, y: drone.y, life: 18, color: '#00d9ff' });
+            }
+          });
+        });
+        orbital.drones = orbital.drones.filter((drone) => !drone.dead);
+        orbital.lasers = orbital.lasers.filter((laser) => laser.life > 0 && laser.x > -20 && laser.x < 780 && laser.y > -20 && laser.y < 440);
+        orbital.sparks.forEach((spark) => { spark.life -= 1; spark.x += (Math.random() - 0.5) * 5; spark.y += (Math.random() - 0.5) * 5; });
+        orbital.sparks = orbital.sparks.filter((spark) => spark.life > 0);
+        orbital.wave = 1 + Math.floor(orbital.score / 250);
+        if (orbital.score > orbital.best) {
+          orbital.best = orbital.score;
+          localStorage.setItem('orbital-best', orbital.best);
+        }
+        orbitalScoreEl.textContent = orbital.score;
+        orbitalWaveEl.textContent = orbital.wave;
+        orbitalBestEl.textContent = orbital.best;
+      }
+
+      function drawOrbital(time) {
+        const ctx = orbitalCtx;
+        const w = orbitalCanvas.width;
+        const h = orbitalCanvas.height;
+        ctx.clearRect(0, 0, w, h);
+        ctx.fillStyle = '#080612';
+        ctx.fillRect(0, 0, w, h);
+        ctx.strokeStyle = 'rgba(0, 217, 255, 0.08)';
+        for (let x = 20; x < w; x += 38) { ctx.beginPath(); ctx.moveTo(x, 0); ctx.lineTo(x, h); ctx.stroke(); }
+        for (let y = 20; y < h; y += 38) { ctx.beginPath(); ctx.moveTo(0, y); ctx.lineTo(w, y); ctx.stroke(); }
+        const core = { x: w / 2, y: h / 2 };
+        ctx.save();
+        ctx.translate(core.x, core.y);
+        ctx.rotate(time / 1800);
+        ctx.strokeStyle = 'rgba(0, 217, 255, 0.3)';
+        ctx.setLineDash([4, 8]);
+        ctx.beginPath(); ctx.arc(0, 0, 55, 0, Math.PI * 2); ctx.stroke();
+        ctx.restore();
+        const glow = ctx.createRadialGradient(core.x, core.y, 3, core.x, core.y, 40);
+        glow.addColorStop(0, '#fff');
+        glow.addColorStop(0.25, '#00d9ff');
+        glow.addColorStop(1, 'rgba(0, 217, 255, 0)');
+        ctx.fillStyle = glow;
+        ctx.beginPath(); ctx.arc(core.x, core.y, 42, 0, Math.PI * 2); ctx.fill();
+        ctx.fillStyle = '#e9fbff';
+        ctx.beginPath(); ctx.arc(core.x, core.y, 9, 0, Math.PI * 2); ctx.fill();
+        orbital.drones.forEach((drone) => {
+          ctx.save();
+          ctx.translate(drone.x, drone.y);
+          ctx.rotate(time / 400);
+          ctx.shadowBlur = 14; ctx.shadowColor = '#ff2bd6'; ctx.fillStyle = '#ff2bd6';
+          ctx.beginPath(); ctx.moveTo(drone.size, 0); ctx.lineTo(0, drone.size); ctx.lineTo(-drone.size, 0); ctx.lineTo(0, -drone.size); ctx.fill();
+          ctx.restore();
+        });
+        ctx.strokeStyle = '#fff';
+        ctx.lineWidth = 2;
+        orbital.lasers.forEach((laser) => { ctx.beginPath(); ctx.moveTo(laser.x, laser.y); ctx.lineTo(laser.x - laser.vx * 1.8, laser.y - laser.vy * 1.8); ctx.stroke(); });
+        orbital.sparks.forEach((spark) => { ctx.fillStyle = spark.color; ctx.fillRect(spark.x, spark.y, 3, 3); });
+        if (orbital.shockwave > 0) {
+          ctx.strokeStyle = `rgba(255, 255, 255, ${orbital.shockwave / 34})`;
+          ctx.lineWidth = 5;
+          ctx.beginPath(); ctx.arc(core.x, core.y, (34 - orbital.shockwave) * 12, 0, Math.PI * 2); ctx.stroke();
+          orbital.shockwave -= 1;
+        }
+        ctx.fillStyle = 'rgba(236, 232, 255, 0.6)';
+        ctx.font = '12px SFMono-Regular, monospace';
+        ctx.fillText(`PULSE ${Math.round(orbital.pulse)}%`, 16, h - 16);
+        ctx.fillStyle = 'rgba(0, 217, 255, 0.18)';
+        ctx.fillRect(78, h - 24, 120, 8);
+        ctx.fillStyle = '#00d9ff';
+        ctx.fillRect(78, h - 24, 120 * orbital.pulse / 100, 8);
+      }
+
+      const driftCanvas = document.getElementById('driftCanvas');
+      const driftCtx = driftCanvas.getContext('2d');
+      const driftSpeedEl = document.getElementById('driftSpeed');
+      const driftComboEl = document.getElementById('driftCombo');
+      const driftBestEl = document.getElementById('driftBest');
+      const driftStartBtn = document.getElementById('driftStart');
+      const drift = {
+        running: false,
+        score: 0,
+        best: Number(localStorage.getItem('drift-best') || 0),
+        combo: 1,
+        x: 380,
+        targetX: 380,
+        distance: 0,
+        objects: [],
+        lastSpawn: 0
+      };
+      driftBestEl.textContent = drift.best;
+
+      function setDriftTarget(event) {
+        const rect = driftCanvas.getBoundingClientRect();
+        drift.targetX = Math.max(35, Math.min(725, (event.clientX - rect.left) * driftCanvas.width / rect.width));
+      }
+      driftCanvas.addEventListener('pointerdown', (event) => { driftCanvas.setPointerCapture(event.pointerId); setDriftTarget(event); });
+      driftCanvas.addEventListener('pointermove', (event) => { if (event.buttons) setDriftTarget(event); });
+      driftStartBtn.addEventListener('click', () => {
+        drift.running = true;
+        drift.score = 0;
+        drift.combo = 1;
+        drift.x = 380;
+        drift.targetX = 380;
+        drift.objects = [];
+        driftStartBtn.textContent = 'Restart Run';
+      });
+      document.addEventListener('keydown', (event) => {
+        if (event.key === ' ' || event.key.toLowerCase() === 'e') orbitalShockwaveBtn.click();
+        if (!drift.running) return;
+        if (event.key === 'ArrowLeft' || event.key.toLowerCase() === 'a') drift.targetX -= 45;
+        if (event.key === 'ArrowRight' || event.key.toLowerCase() === 'd') drift.targetX += 45;
+        if (event.key === ' ' && document.activeElement === driftStartBtn) driftStartBtn.click();
+      });
+
+      function updateDrift(time) {
+        if (!drift.running) return;
+        const speed = 3.2 + Math.min(4, drift.distance / 1800);
+        drift.x += (drift.targetX - drift.x) * 0.12;
+        drift.distance += speed;
+        if (time - drift.lastSpawn > Math.max(350, 820 - drift.distance / 18)) {
+          drift.objects.push({ x: 45 + Math.random() * 670, y: -30, type: Math.random() > 0.72 ? 'core' : 'pylon' });
+          drift.lastSpawn = time;
+        }
+        drift.objects.forEach((object) => { object.y += speed * 1.8; });
+        drift.objects.forEach((object) => {
+          if (object.y > 340 && object.y < 400 && Math.abs(object.x - drift.x) < 34) {
+            object.hit = true;
+            if (object.type === 'core') {
+              drift.score += 50 * drift.combo;
+              drift.combo = Math.min(9, drift.combo + 1);
+            } else {
+              drift.running = false;
+              drift.combo = 1;
+              driftStartBtn.textContent = 'Launch Again';
+            }
+          }
+        });
+        drift.objects = drift.objects.filter((object) => !object.hit && object.y < 450);
+        if (drift.score > drift.best) {
+          drift.best = drift.score;
+          localStorage.setItem('drift-best', drift.best);
+        }
+        driftSpeedEl.textContent = `${Math.round(speed * 24)} km/h`;
+        driftComboEl.textContent = `x${drift.combo}`;
+        driftBestEl.textContent = drift.best;
+      }
+
+      function drawDrift(time) {
+        const ctx = driftCtx;
+        const w = driftCanvas.width;
+        const h = driftCanvas.height;
+        ctx.clearRect(0, 0, w, h);
+        const sky = ctx.createLinearGradient(0, 0, 0, h);
+        sky.addColorStop(0, '#170c32'); sky.addColorStop(1, '#080612');
+        ctx.fillStyle = sky; ctx.fillRect(0, 0, w, h);
+        ctx.strokeStyle = 'rgba(157, 0, 255, 0.3)';
+        ctx.lineWidth = 1;
+        const offset = (time / 8) % 42;
+        for (let y = -42 + offset; y < h; y += 42) { ctx.beginPath(); ctx.moveTo(0, y); ctx.lineTo(w, y); ctx.stroke(); }
+        for (let x = -w; x < w * 2; x += 52) {
+          ctx.beginPath(); ctx.moveTo(w / 2, 185); ctx.lineTo(x, h); ctx.stroke();
+        }
+        drift.objects.forEach((object) => {
+          ctx.save();
+          ctx.translate(object.x, object.y);
+          if (object.type === 'core') {
+            ctx.shadowBlur = 18; ctx.shadowColor = '#00d9ff'; ctx.fillStyle = '#00d9ff';
+            ctx.beginPath(); ctx.arc(0, 0, 10, 0, Math.PI * 2); ctx.fill();
+          } else {
+            ctx.shadowBlur = 14; ctx.shadowColor = '#ff2bd6'; ctx.fillStyle = '#ff2bd6';
+            ctx.beginPath(); ctx.moveTo(0, -18); ctx.lineTo(13, 16); ctx.lineTo(-13, 16); ctx.closePath(); ctx.fill();
+          }
+          ctx.restore();
+        });
+        ctx.save();
+        ctx.translate(drift.x, 370);
+        ctx.shadowBlur = 20; ctx.shadowColor = '#00d9ff'; ctx.fillStyle = '#e9fbff';
+        ctx.beginPath(); ctx.moveTo(0, -28); ctx.lineTo(22, 22); ctx.lineTo(0, 14); ctx.lineTo(-22, 22); ctx.closePath(); ctx.fill();
+        ctx.fillStyle = '#00d9ff'; ctx.fillRect(-4, -10, 8, 24);
+        ctx.restore();
+        if (!drift.running) {
+          ctx.fillStyle = 'rgba(6, 2, 15, 0.62)';
+          ctx.fillRect(0, 0, w, h);
+          ctx.fillStyle = '#ece8ff';
+          ctx.textAlign = 'center';
+          ctx.font = '700 17px Unbounded, sans-serif';
+          ctx.fillText(drift.score ? 'RUN COMPLETE' : 'READY TO DRIFT', w / 2, h / 2);
+          ctx.font = '12px SFMono-Regular, monospace';
+          ctx.fillStyle = '#00d9ff';
+          ctx.fillText('COLLECT CORES. AVOID PYLONS.', w / 2, h / 2 + 28);
+          ctx.textAlign = 'start';
+        }
+      }
+
+      function arcadeLoop(time) {
+        updateOrbital(time);
+        drawOrbital(time);
+        updateDrift(time);
+        drawDrift(time);
+        requestAnimationFrame(arcadeLoop);
+      }
+      requestAnimationFrame(arcadeLoop);
     </script>
   </body>
 </html>
