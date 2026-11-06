@@ -393,6 +393,22 @@
         transition: transform 0.2s ease;
       }
 
+      .profile-photo-wrap {
+        margin-top: 14px;
+        border-radius: 16px;
+        overflow: hidden;
+        border: 1px solid rgba(0, 217, 255, 0.45);
+        box-shadow: 0 0 24px rgba(157, 0, 255, 0.45);
+      }
+
+      .profile-photo {
+        width: 100%;
+        height: 320px;
+        object-fit: cover;
+        object-position: center 28%;
+        display: block;
+      }
+
       .code-title {
         margin: 0;
         font-family: 'JetBrains Mono', monospace;
@@ -861,17 +877,13 @@
             </div>
 
             <aside class="hero-card glass tilt" aria-label="Developer snapshot panel">
-              <p class="code-title">system/profile.js</p>
-              <div class="code-box">
-                <div><span class="kw">const</span> profile = {'{'}</div>
-                <div>&nbsp;&nbsp;name: <span class="fn">"Ajay Vishwakarma"</span>,</div>
-                <div>&nbsp;&nbsp;focus: ["Full Stack", "UI Engineering"],</div>
-                <div>&nbsp;&nbsp;status: <span class="fn">"Open for collaboration"</span></div>
-                <div>{'}'};</div>
-                <br />
-                <div><span class="kw">function</span> <span class="fn">buildFuture</span>() {'{'}</div>
-                <div>&nbsp;&nbsp;<span class="kw">return</span> "Scalable + Beautiful";</div>
-                <div>{'}'}</div>
+              <p class="code-title">system/profile.jpg</p>
+              <div class="profile-photo-wrap">
+                <img
+                  class="profile-photo"
+                  src="https://github.com/user-attachments/assets/febeaa13-1206-45a3-874f-916c3bb6d205"
+                  alt="Ajay Vishwakarma standing on a mountain viewpoint"
+                />
               </div>
             </aside>
           </div>
